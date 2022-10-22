@@ -11,6 +11,19 @@ datasource db {
 }
 
 model Account {
-  id String @id
-  name String
+  id                  String  @id
+  name                String
+  billingPostalCode   String
+  billingState        String
+  billingCity         String
+  billingStreet       String
+  shippingPostalCode  String
+  shippingState       String
+  shippingCity        String
+  shippingStreet      String
+  phone               String
+  website             String
+  corporateNumber     String
+  representativeName  String
+  representativeTitle String
 }
