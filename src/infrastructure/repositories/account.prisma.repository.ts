@@ -14,4 +14,22 @@ export class AccountPrismaRepository implements AccountRepository {
       },
     })
   }
+
+  async list(): Promise<Account[]> {
+    return await this.prisma.account.findMany({
+      orderBy: [
+        {
+          id: 'asc',
+        },
+      ],
+    })
+  }
+
+  async save(account: Account): Promise<void> {
+    await this.prisma.account.upsert({
+      where: { id: account.id },
+      create: account,
+      update: account,
+    })
+  }
 }

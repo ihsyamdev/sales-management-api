@@ -50,5 +50,5 @@ yarn prisma migrate dev --name init
 
 ```c
 ・Accountテストデータ登録
-INSERT INTO Account VALUES("ABC0123def", "株式会社テスト00", "131-0046", "東京都", "墨田区", "京島1-2-3 請求タワー6F", "131-0046", "東京都", "墨田区", "京島1-2-3 納品タワー6F", "03-1234-5678", "https://google.com", "0123456789012", "代表者テスト", "代表取締役社長");
+INSERT INTO Account(id, name, billingCity, billingPostalCode, billingState, billingStreet, corporateNumber, phone, representativeName, representativeTitle, shippingCity, shippingPostalCode, shippingState, shippingStreet, website) VALUE("ABC0123def", "株式会社テスト00", "墨田区", "131-0046", "東京都", "京島1-2-3 請求タワー6F", "0123456789012", "03-1234-5678", "代表者テスト", "代表取締役社長", "墨田区", "131-0046", "東京都", "京島1-2-3 納品タワー6F", "https://google.com");
 ```

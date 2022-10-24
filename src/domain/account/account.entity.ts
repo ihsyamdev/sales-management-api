@@ -1,7 +1,6 @@
 import { randomId } from 'src/shared/entity'
 
 export interface AccountCreateArgs {
-  id: string
   name: string
   billingPostalCode: string
   billingState: string
@@ -17,6 +16,11 @@ export interface AccountCreateArgs {
   representativeName: string
   representativeTitle: string
 }
+
+export interface AccountReconstructArgs extends AccountCreateArgs {
+  id: string
+}
+
 export class Account {
   id: string
   name: string
@@ -63,31 +67,72 @@ export class Account {
     this.shippingStreet = shippingStreet
     this.phone = phone
     this.website = website
+    this.corporateNumber = corporateNumber
     this.representativeName = representativeName
     this.representativeTitle = representativeTitle
   }
 
   static create(args: AccountCreateArgs) {
+    const billingPostalCode = checkPostalCodeFormat(args.billingPostalCode)
+    const shippingPotalCode = checkPostalCodeFormat(args.shippingPostalCode)
+    const corporateNumber = checkCorporateNumberFormat(args.corporateNumber)
     return new Account(
       randomId(),
       args.name,
-      args.billingPostalCode,
+      billingPostalCode,
       args.billingState,
       args.billingCity,
       args.billingStreet,
-      args.shippingPostalCode,
+      shippingPotalCode,
       args.shippingState,
       args.shippingCity,
       args.shippingStreet,
       args.phone,
       args.website,
-      args.corporateNumber,
+      corporateNumber,
       args.representativeName,
       args.representativeTitle,
     )
   }
 
-  // update(name: string) {
-  //   return new Account(this.id, name ?? this.name)
-  // }
+  static reconstruct(args: AccountReconstructArgs) {
+    const billingPostalCode = checkPostalCodeFormat(args.billingPostalCode)
+    const shippingPotalCode = checkPostalCodeFormat(args.shippingPostalCode)
+    const corporateNumber = checkCorporateNumberFormat(args.corporateNumber)
+    return new Account(
+      args.id,
+      args.name,
+      billingPostalCode,
+      args.billingState,
+      args.billingCity,
+      args.billingStreet,
+      shippingPotalCode,
+      args.shippingState,
+      args.shippingCity,
+      args.shippingStreet,
+      args.phone,
+      args.website,
+      corporateNumber,
+      args.representativeName,
+      args.representativeTitle,
+    )
+  }
+}
+
+// 郵便番号フォーマットチェック(不適合なら空白に)
+const checkPostalCodeFormat = (postalCode: string) => {
+  const regexp = new RegExp('^[0-9]{3}-[0-9]{4}$')
+  if (postalCode !== '' && !regexp.test(postalCode)) {
+    return ''
+  }
+  return postalCode
+}
+
+// 法人番号フォーマットチェック(不適合なら空白に)
+const checkCorporateNumberFormat = (corporateNumber: string) => {
+  const regexp = new RegExp('^[0-9]{13}')
+  if (corporateNumber !== '' && !regexp.test(corporateNumber)) {
+    return ''
+  }
+  return corporateNumber
 }
